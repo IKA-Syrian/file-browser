@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Explorer</title>
+</head>
+<body>
+  <h1>File Explorer</h1>
+
+  <form id="navigationForm">
+    <label for="directoryPath">Directory Path:</label>
+    <input type="text" id="directoryPath" name="directoryPath" />
+    <button type="submit">Go</button>
+  </form>
+
+  <div id="fileList">
+    <% disks.forEach(disk => { %>
+        <a href="/files/browse/<%= disk.replace(/:/g, ''), %>" ><ul><h2><%= disk %></h2></ul></a>
+    <% }); %>
+  </div>
+</body>
+</html>

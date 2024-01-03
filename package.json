@@ -1,0 +1,48 @@
+{
+  "name": "file-browser",
+  "version": "1.0.0",
+  "description": "Backend To browse the file from device",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IKA-Syrian/file-browser"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IKA-Syrian/file-browser/issues"
+  },
+  "dependencies": {
+    "@enviro/metadata": "^1.5.1",
+    "activedirectory2": "^2.2.0",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "express-useragent": "^1.0.15",
+    "ffmpeg": "^0.0.4",
+    "fluent-ffmpeg": "^2.1.2",
+    "fs": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.2",
+    "ldapjs": "^3.0.7",
+    "mediainfo.js": "^0.2.1",
+    "node-gyp": "^10.0.1",
+    "os": "^0.1.2",
+    "passport": "^0.7.0",
+    "passport-ldapauth": "^3.0.1",
+    "passport-windowsauth": "^3.0.1",
+    "passport-windowsauth-latest": "^3.0.2",
+    "path": "^0.12.7",
+    "ref-array-napi": "^1.2.2",
+    "usb-detection": "^4.14.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

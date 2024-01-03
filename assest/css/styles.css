@@ -1,0 +1,256 @@
+
+:root {
+    --explorer-font-size: 18px; /* Set the default font size here */
+    --explorer-icon-font-size: 24px;
+}
+
+
+/* Header Styles */
+#header {
+    background: #000;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+    justify-content: space-between; /* Space elements evenly */
+}
+#header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+#header button {
+    background: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+/* Explorer Styles */
+#explorer {
+    display: flex;
+    height: 92vh;
+}
+
+/* Tree Styles */
+.tree {
+    width: 100%; /* Take full width of the parent container */
+    max-width: 300px; 
+    border-right: 1px solid #ccc;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #f4f4f4;
+}
+
+.tree ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.tree span {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.tree-folder {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.tree-folder span {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.tree-folder span i {
+    margin-right: 5px;
+}
+
+.tree-folder span:hover {
+    color: #3498db;
+}
+
+/* Content Styles */
+.content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.content ul {
+    list-style-type: none;
+    padding: 15px;
+}
+
+.files, .folders {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+/* Details Styles */
+.details {
+    padding: 15px;
+    border-top: 1px solid #ccc;
+    background-color: #f4f4f4;
+}
+
+/* Folder Styles */
+.folder {
+    color: #f39c12;
+    margin: 2px;
+}
+.file {
+    color: #3498db;
+    margin: 2px;
+}
+.folder-icon {
+    color: #f39c12;
+    margin: 2px;
+    /* font-size: 20px; */
+}
+.folder-name, .file-name {
+    color: black;
+    font-size: 18px;
+    margin-left: 5px;
+}
+.tree-name {
+    color: black;
+    margin-left: 5px;
+}
+.folder:hover, .folder-name:hover, .file:hover, .file-name:hover{
+    color: #3498db;
+    cursor: pointer;
+}
+
+.folder, .file, .folder-name, .file-name {
+    font-size: var(--explorer-font-size);
+}
+/* Icon View Styles */
+.icon-view .folders, .icon-view .files {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 20px;
+    min-width: 80%;
+    overflow: hidden;
+}
+
+.icon-view .folders span, .icon-view .files span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 10px; /* Adjust spacing between icons */
+}
+.icon-view .folder{
+    color: #f39c12; /* Set text color for icons in icon view */
+    font-size: 24px;
+}
+
+.icon-view .file{
+    color: #3498db; /* Set text color for icons in icon view */
+    font-size: 24px;
+}
+
+.icon-view .folder-name {
+    color: #000; /* Set text color for icons in icon view */
+    font-size: 18px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.icon-view .file-name {
+    color: #000; /* Set text color for icons in icon view */
+    font-size: 18px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.icon-view .folder, .icon-view .file{
+    font-size: var(--explorer-icon-font-size);
+}
+
+.icon-view .folder-name, .icon-view .file-name{
+    font-size: var(--explorer-font-size);
+}
+
+.icon-view .folder:hover, .icon-view .folder-name:hover, .icon-view .file:hover, .icon-view .file-name:hover{
+    color: #3498db;
+    cursor: pointer;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    max-height: 50%;
+}
+
+/* Popup Button Styles */
+.popup button {
+    background-color: #2ecc71;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+.popup-header {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.popup-title {
+    font-size: 18px;
+}
+
+.popup-close {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.popup-close:hover {
+    background-color: #c0392b;
+}
+
+.popup-content {
+    padding: 15px;
+    overflow-y: auto; /* Allow vertical overflow */
+    max-height: calc(100vh - 60px); /* Adjust the max-height as needed */
+}
+.popup button:hover {
+    background-color: #27ae60;
+}
+
+.checked {
+    color: #3498db;
+    background-color: #afafaf;
+    border-radius: 5px;
+}

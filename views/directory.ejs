@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">|
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/js/browser.js"></script>
+</head>
+<body>
+    <div class="exploer-bar">
+        <div id="directories-section">
+            <% if(template.Directories) { %>
+                <% template.Directories.forEach(Directory => { %>
+                    <a href="#" onclick="handleDirectoryClick('<%= Directory %>')"><ul id="<%= Directory %>"><h2><%= Directory %></h2></ul></a>
+                <% }); %>
+            <% } %>
+        </div>
+        <div id="files-section">
+        <% if(template.files) { %>
+                <% template.files.forEach(File => { %>
+                <ul><h2><%= File %></h2></ul>
+                <% }); %>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

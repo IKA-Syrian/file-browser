@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        form {
+            width: 300px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        
+        
+        label, input[type="text"], input[type="password"], button[type="submit"] {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+    <script>
+        function Check() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            localStorage.setItem('username', username);
+            fetch('/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            }).then(res => {
+                if (res.status === 200) {
+                    window.location.href = '/files/browse';
+                } else {
+                    const error = new Error(res.error);
+                    throw error;
+                }
+            }).catch(err => {
+                console.error(err);
+                alert('Error logging in please try again');
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Login</h1>
+    <form method="post">  
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <button type="submit" value="Login" onClick="Check()"><b>Login</b></button>
+    </form>
+</body>
+</html>

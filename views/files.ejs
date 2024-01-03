@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Explorer</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link href="/css/browser.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="/js/browser.js"></script>
+</head>
+<body>
+    <h1>File Explorer</h1>
+    <button class="fa fa-home" onclick="location.href='/files/browse'"></button>
+    <button onclick="back()"><i class="fa fa-arrow-left" ></i> Back</button>
+    <button onclick="next()">Next <i class="fa fa-arrow-right" ></i></button>
+    
+    <div class="browser">
+        <div id="directories">
+            <% if(template.Directories) { %>
+                <% template.Directories.forEach(Directory => { %>
+                    <a href="#" onclick="handleDirectoryClick('<%= Directory %>')"><ul id="<%= Directory %>"><h2><%= Directory %></h2></ul></a>
+                <% }); %>
+            <% } %>
+        </div>
+        <div id="files">
+        <% if(template.files) { %>
+                <% template.files.forEach(File => { %>
+                <ul><h2><%= File %></h2></ul>
+                <% }); %>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
