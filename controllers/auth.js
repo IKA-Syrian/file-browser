@@ -59,6 +59,23 @@ class AuthController {
             return error;
         }
     }
+
+    getUserHomeDirectory() {
+        return new Promise((resolve, reject) => {
+            this._ad.findUser(this._user, (err, user) => {
+                if (err) {
+                    console.log('ERROR:', err);
+                    return reject(err);
+                }
+                if (!user) {
+                    console.log('User not found.');
+                    return resolve(null);
+                }
+                console.log('User found: ' + JSON.stringify(user));
+                return resolve(user.homeDirectory);
+            });
+        });
+    }
 }
 
 module.exports = AuthController;

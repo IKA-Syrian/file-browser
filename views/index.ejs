@@ -1,96 +1,107 @@
-
-<% function buildTreeHTML(treeData) {
-    let html = '';
-    treeData.forEach(item => {
-        if (item.children) {
-            html += `
-                <li>
-                    <span class="tree-folder">
-                        <i class="fa fa-chevron-right" aria-hidden="true" data-path="${item.path}"></i>
-                        <span class="folder-icon fa fa-folder"></span>
-                        <span class="tree-name" data-path="${item.path}">${item.name}</span>
-                    </span>
-                    <ul></ul>
-                </li>`;
-        } else {
-            html += `
-                <li>
-                    <span class="tree-folder folder-icon fa fa-folder" data-path="${item.path}">
-                        <span class="tree-name" data-path="${item.path}">${item.name}</span>
-                    </span>
-                </li>`;
-        }
+<% function buildTreeHTML(treeData) { let html='' ; treeData.forEach(item=> {
+    if (item.children) {
+    html += `
+    <li>
+        <span class="tree-folder">
+            <i class="fa fa-chevron-right" aria-hidden="true" data-path="${item.path}"></i>
+            <span class="folder-icon fa fa-folder"></span>
+            <span class="tree-name" data-path="${item.path}">${item.name}</span>
+        </span>
+        <ul></ul>
+    </li>`;
+    } else {
+    html += `
+    <li>
+        <span class="tree-folder folder-icon fa fa-folder" data-path="${item.path}">
+            <span class="tree-name" data-path="${item.path}">${item.name}</span>
+        </span>
+    </li>`;
+    }
     });
     return html;
-}
-function buildDirHTML(foldersData) {
-    return foldersData.map(folder => `<li><span class="folder fa fa-folder" data-path="${folder.path}" onClick="handleDirectoryClick('${folder.path}')"><span class="folder-name" >${folder.name}</span></span></li>`).join('');
-}
-function buildFilesHTML(filesData) {
-    return filesData.map(file => `<li><span class="file fa ${file.fa}" onclick="showFileMetadata('${file.name}')" "><span class="file-name" >${file.name}</span></span></li>`).join('');
-}
-%>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows Explorer</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/styles.css"> <!-- Adjust the path based on your file structure -->
-    <script src="/js/browser.js" type=""></script> <!-- Adjust the path based on your file structure -->
-    <script src="/js/functions.js" type=""></script> <!-- Adjust the path based on your file structure -->
-</head>
-<body>
-    <section id="header">
-        <h1 class="Title">File Explorer</h1>
-        <div class="main-buttons">
-            <button class="fa fa-home" onclick="location.href='/files/browse'"></button>
-            <button onclick="back()"><i class="fa fa-arrow-left" ></i> Back</button>
-            <button onclick="next()">Next <i class="fa fa-arrow-right" ></i></button>
-            <button id="toggleViewButton" onclick="toggleView()">Toggle View</button>
-            <button id="decreaseSizeButton" onclick="changeElementSize('decrease')">Decrease Size</button>
-            <button id="increaseSizeButton" onclick="changeElementSize('increase')">Increase Size</button>
-        </div>
-        <form id="navigationForm">
+    }
+    function buildDirHTML(foldersData) {
+    return foldersData.map(folder => `<li><span class="folder fa fa-folder" data-path="${folder.path}"
+            onClick="handleDirectoryClick('${folder.path}')"><span class="folder-name">${folder.name}</span></span></li>
+    `).join('');
+    }
+    function buildFilesHTML(filesData) {
+    return filesData.map(file => `<li><span class="file fa ${file.fa}"
+            onclick="showFileMetadata('${file.name}')" "><span class=" file-name">${file.name}</span></span></li>
+    `).join('');
+    }
+    %>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Windows Explorer</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/styles.css"> <!-- Adjust the path based on your file structure -->
+        <script src="/js/browser.js" type=""></script> <!-- Adjust the path based on your file structure -->
+        <script src="/js/functions.js" type=""></script> <!-- Adjust the path based on your file structure -->
+    </head>
+
+    <body>
+        <section id="header">
+            <h1 class="Title">File Explorer</h1>
+            <div class="main-buttons">
+                <button class="fa fa-home" onclick="location.href='/files/browse'"></button>
+                <button onclick="back()"><i class="fa fa-arrow-up"></i> <span>Up</span></button>
+                <button id="toggleViewButton" onclick="toggleView()"><i class="fa fa-exchange" aria-hidden="true"></i>
+                    <span>Toggle View</span></button>
+                <button id="decreaseSizeButton" onclick="changeElementSize('decrease')"><i class="fa fa-search-minus"
+                        aria-hidden="true"></i> <span>Decrease Size</span></button>
+                <button id="increaseSizeButton" onclick="changeElementSize('increase')"><i class="fa fa-search-plus"
+                        aria-hidden="true"></i> <span>Increase Size</span></button>
+            </div>
+            <div>
+                <button id="logoutButton" onclick="location.href='/auth/logout'"><span>Logout</span> <i
+                        class="fa fa-sign-out" aria-hidden="true"></i></button>
+            </div>
+            <!-- <form id="navigationForm">
             <label for="directoryPath">Directory Path:</label>
             <input type="text" id="directoryPath" name="directoryPath" />
             <button type="submit">Go</button>
-        </form>
-    </section>
-    <section id="explorer">
-        <div class="tree">
-            <ul id="directoryTree">
-                <!-- Directory tree placeholder -->
-                <%- buildTreeHTML(treeData) %>
-            </ul>
-        </div>
-        <div class="content">
-            <ul>
-                <div class="folders">
-                    <!-- Folders placeholder -->
-                    <%- buildDirHTML(filesData.Directories) %> <!-- Pass the directory data to the function -->
-                </div>
-                <div class="files">
-                    <!-- Directories placeholder -->
-                    <%- buildFilesHTML(filesData.files) %>
-                </div>
-            </ul>
-        </div>
-        <div id="metadataPopup" class="popup">
-            <div class="popup-header">
-                <span class="popup-title">File Details</span>
-                <button class="popup-close" onclick="closePopup()">Close</button>
+        </form> -->
+        </section>
+        <section id="explorer">
+            <div class="tree">
+                <ul id="directoryTree">
+                    <!-- Directory tree placeholder -->
+                    <%- buildTreeHTML(treeData) %>
+                </ul>
             </div>
-            <div id="popup-content" class="popup-content">
-                <!-- Content of the metadata popup goes here -->
+            <div class="content">
+                <ul>
+                    <div class="folders">
+                        <!-- Folders placeholder -->
+                        <%- buildDirHTML(filesData.Directories) %> <!-- Pass the directory data to the function -->
+                    </div>
+                    <div class="files">
+                        <!-- Directories placeholder -->
+                        <%- buildFilesHTML(filesData.files) %>
+                    </div>
+                </ul>
             </div>
-        </div>
-    </section>
-    <script>
-        
-    </script>
-</body>
-</html>
+            <div id="metadataPopup" class="popup">
+                <div class="popup-header">
+                    <span class="popup-title">File Details</span>
+                    <button class="popup-close" onclick="closePopup()">Close</button>
+                </div>
+                <div id="popup-content" class="popup-content">
+                    <!-- Content of the metadata popup goes here -->
+                </div>
+            </div>
+        </section>
+        <script>
+
+        </script>
+    </body>
+
+    </html>

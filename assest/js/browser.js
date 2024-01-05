@@ -2,24 +2,30 @@ let currentPath = '/';
 let previousPath = '/';
 const urlParams = window.location.pathname;
 const disk = urlParams.split('/')[3].replace(/#/g, "") || '';
+const username = localStorage.getItem('username');
 function handleDirectoryClick(directoryPath) {
     const urlParams = window.location.pathname;
     const disk = urlParams.split('/')[3].replace(/#/g, "") || '';
+    const username = localStorage.getItem('username');
     let dpath = currentPath + `${directoryPath}`
     console.log(dpath)
     // Make an AJAX request to get the content of the clicked directory
     $.ajax({
         url: `/files/${disk}/`,
         method: 'POST',
-        data: { path: dpath },
+        data: { path: dpath, username: username },
         success: function (data) {
             // Update the content with the new data
             updateContent(data);
             currentPath = dpath;
             console.log(currentPath)
         },
-        error: function () {
-            alert('Error fetching directory content.');
+        error: function (error) {
+            if (error.status == 403) {
+                alert('You do not have permission to access this folder.');
+            } else {
+                alert('Error fetching directory content.');
+            }
         }
     });
 }
@@ -27,22 +33,29 @@ function handleDirectoryClick(directoryPath) {
 function back() {
     const urlParams = window.location.pathname;
     const disk = urlParams.split('/')[3].replace(/#/g, "") || '';
+    const username = localStorage.getItem('username');
     previousPath = currentPath
-    let dpath = currentPath.split('/').slice(0, -2).join('/') + '/'
-    console.log(dpath)
+    let dpath = currentPath.replace(/\\/g, '/').split('/').slice(0, -2).join('/') + '/'
+    console.log("previousPath", previousPath)
+    console.log("currentPath", currentPath)
+    console.log("dpath", dpath)
     // Make an AJAX request to get the content of the clicked directory
     $.ajax({
         url: `/files/${disk}/`,
         method: 'POST',
-        data: { path: dpath },
+        data: { path: dpath, username: username },
         success: function (data) {
             // Update the content with the new data
             updateContent(data);
             currentPath = dpath;
             console.log(currentPath)
         },
-        error: function () {
-            alert('Error fetching directory content.');
+        error: function (error) {
+            if (error.status == 403) {
+                alert('You do not have permission to access this folder.');
+            } else {
+                alert('Error fetching directory content.');
+            }
         }
     });
 }
@@ -50,13 +63,14 @@ function back() {
 function next() {
     const urlParams = window.location.pathname;
     const disk = urlParams.split('/')[3].replace(/#/g, "") || '';
+    const username = localStorage.getItem('username');
     let dpath = previousPath
     console.log(dpath)
     // Make an AJAX request to get the content of the clicked directory
     $.ajax({
         url: `/files/${disk}/`,
         method: 'POST',
-        data: { path: dpath },
+        data: { path: dpath, username: username },
         success: function (data) {
             // Update the content with the new data
             updateContent(data);
@@ -134,7 +148,7 @@ function showFileMetadata(fileName) {
             // Show the popup
             popup.innerHTML += `<br><button onclick="closeMetadataPopup()">Close</button>`;
 
-            mainpopup.style.display = 'block';
+            mainpopup.style.display = 'flex';
         })
         .catch(error => console.error('Error fetching metadata:', error));
 }

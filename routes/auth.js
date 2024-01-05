@@ -2,7 +2,8 @@ require('dotenv').config();
 const routes = require('express').Router();
 const authController = require('../controllers/auth')
 const { encrypt } = require('../utils/dyCrypto')
-const { LDAPURL, LDAPBASEDN, LDAPUSER, LDAPPASSWORD } = process.env
+const { loginMiddleware } = require('../controllers/authMiddleware')
+const { LDAPURL, LDAPBASEDN, LDAPUSER, LDAPPASSWORD, TOKENEXP, COOKIEEXP } = process.env
 // const passport = require('../strategies/windows');
 var ActiveDirectory = require('activedirectory2');
 const jwt = require('jsonwebtoken');
@@ -13,11 +14,11 @@ var config = {
     password: LDAPPASSWORD
 }
 
-routes.get('/login', (req, res) => {
+routes.get('/login', loginMiddleware, (req, res) => {
     return res.status(200).render('login');
 })
 
-routes.post('/login', async (req, res) => {
+routes.post('/login', loginMiddleware, async (req, res) => {
     // If the request reaches here, it means the user is authenticated
     const { username, password } = req.body;
     const browserId = req.headers['user-agent']; // Get the browser ID from the request headers
@@ -28,14 +29,16 @@ routes.post('/login', async (req, res) => {
     const AdController = new authController()
     AdController.set_user(username, encrypt(password), ad)
     const result = await AdController.checkUser()
+    const directory = await AdController.getUserHomeDirectory()
+    console.log(directory)
     // console.log(result)
     if (result.status == 200) {
         // Generate a JWT token with the browser ID, session ID, and user IP as additional claims
-        const token = jwt.sign({ username, browserId, sessionId, userIp }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ username, browserId, sessionId, userIp }, process.env.JWT_SECRET, { expiresIn: TOKENEXP });
         res.cookie('token', token, {
             httpOnly: true, // Makes the cookie inaccessible to the client-side JS
             secure: process.env.NODE_ENV !== 'development', // Use secure cookies in production
-            maxAge: 60 * 60 * 1000, // Cookie expiration set to 1 hours
+            maxAge: COOKIEEXP, // Cookie expiration set to 1 hours
             sameSite: 'strict' // Cookie is not sent with cross-origin requests
         });
         // Set the encrypted token in the response header
@@ -60,23 +63,10 @@ routes.get('/check', async (req, res) => {
         res.status(401).json({ message: 'Invalid credentials' });
     }
 })
-// routes.post('/login', (req, res, next) => {
-//     // Passport middleware will authenticate the request
-//     passport.authenticate('ldapauth', { session: false }, (err, user, info) => {
-//         if (err) { return next(err); }
-//         if (!user) { return res.status(401).json({ message: 'Invalid credentials' }); }
 
-//         // If authentication is successful, you can generate a JWT token or perform other actions
-//         const token = generateToken(user);
-
-//         // Respond with the token or any other relevant information
-//         res.json({ token });
-//     })(req, res, next);
-// });
-// routes.get('/signup', authController.getSignup);
-
-// routes.post('/signup', authController.postSignup);
-
-// routes.post('/logout', authController.postLogout);
+routes.get('/logout', (req, res) => {
+    res.clearCookie('token');
+    res.status(200).redirect('/auth/login');
+});
 
 module.exports = routes;

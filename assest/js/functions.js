@@ -71,10 +71,12 @@ $(document).ready(function () {
 
         // Update the currently checked file
         currentCheckedFile = clickedFile.parent();
+        previousPath = currentPath;
         // Make AJAX request to fetch file details
-        $.post(`/files/${disk}`, { path: filePath.replace(/^[A-z]:\\/, '') })
+        $.post(`/files/${disk}`, { path: filePath.replace(/^[A-z]:\\/, ''), username: username })
             .done(function (fileDetails) {
                 // Update the .content section with file details
+                localStorage.setItem('currentPath', filePath.replace(/^[A-z]:\\/, '').concat('\\'));
                 currentPath = filePath.replace(/^[A-z]:\\/, '').concat('\\');
                 updateContent(fileDetails);
 
@@ -82,6 +84,11 @@ $(document).ready(function () {
             })
             .fail(function (error) {
                 console.error('Error fetching file details:', error);
+                if (error.status == 403) {
+                    alert('You do not have permission to access this folder.');
+                } else {
+                    alert('Error fetching directory content.');
+                }
             });
 
     });

@@ -76,6 +76,30 @@
 .tree-folder span:hover {
     color: #3498db;
 }
+/* Disks Styles */
+
+.tree-disk {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.tree-disk span {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.tree-disk span i {
+    margin-right: 5px;
+}
+
+.tree-disk span:hover {
+    color: #3498db;
+}
+
 
 /* Content Styles */
 .content {
@@ -133,6 +157,38 @@
 .folder, .file, .folder-name, .file-name {
     font-size: var(--explorer-font-size);
 }
+
+/* Disks Style */
+.disks {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.disk {
+    color: #9b9b9b;
+    margin: 2px;
+}
+
+.disk-icon {
+    color: #9b9b9b;
+    margin: 2px;
+    /* font-size: 20px; */
+}
+.disk-name {
+    color: black;
+    font-size: 28px;
+    margin-left: 5px;
+}
+
+.disk:hover, .disk-name:hover{
+    color: #3498db;
+    cursor: pointer;
+}
+
+.disk, .disk-name {
+    font-size: var(--explorer-font-size);
+}
+
 /* Icon View Styles */
 .icon-view .folders, .icon-view .files {
     display: grid;
@@ -186,18 +242,63 @@
     cursor: pointer;
 }
 
+
+/* Disk Icon View */
+.icon-view .disks {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 20px;
+    min-width: 80%;
+    overflow: hidden;
+}
+
+.icon-view .disks span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 10px; /* Adjust spacing between icons */
+}
+.icon-view .disk{
+    color: #9b9b9b; /* Set text color for icons in icon view */
+    font-size: 24px;
+}
+
+.icon-view .disk-name {
+    color: #000; /* Set text color for icons in icon view */
+    font-size: 28px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.icon-view .disk{
+    font-size: var(--explorer-icon-font-size);
+}
+
+.icon-view .disk-name{
+    font-size: var(--explorer-font-size);
+}
+
+.icon-view .disk:hover, .icon-view .disk-name:hover{
+    color: #3498db;
+    cursor: pointer;
+}
+
+/* MetaData PopUp */
 .popup {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 20px;
+    padding: 5px;
     background-color: #fff;
     border: 1px solid #ccc;
+    border-radius: 5px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     z-index: 1000;
-    max-height: 50%;
+    max-height: 75%;
+    flex-direction: column;
 }
 
 /* Popup Button Styles */
@@ -208,19 +309,19 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 15px;
     transition: background-color 0.3s ease;
 }
 .popup-header {
     background-color: #3498db;
     color: #fff;
-    padding: 10px;
-    display: block;
-    justify-content: space-between;
-    align-items: center;
+    padding: 4px;
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+    justify-content: space-between; /* Space elements evenly */
     position: sticky;
     top: 0;
     z-index: 1;
+    border-radius: 5px 5px 0 0;
 }
 
 .popup-title {
@@ -253,4 +354,10 @@
     color: #3498db;
     background-color: #afafaf;
     border-radius: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    .main-buttons button span, #logoutButton span {
+        display: none;
+    }
 }
